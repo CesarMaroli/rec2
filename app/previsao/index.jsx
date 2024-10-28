@@ -32,15 +32,15 @@ const telaPrevisao = () => {
     return (
         <View style={styles.container}>
             {tempo ? (
-                <View style={styles.tempoView}>
-                    <Text style={styles.texto}>Cidade: {tempo.nome}</Text>
-                    <Text style={styles.texto}>Temperatura: {tempo.temperatura}°C</Text>
-                    <Text style={styles.texto}>Velocidade do Vento: {tempo.vento} m/s</Text>
-                    <Text style={styles.texto}>Umidade: {tempo.umidade}%</Text>
-                    <Text style={styles.texto}>Clima: {tempo.clima}</Text>
+                <View>
+                    <Text>Cidade: {tempo.nome}</Text>
+                    <Text>Temperatura: {tempo.temperatura}°C</Text>
+                    <Text>Velocidade do Vento: {tempo.vento} m/s</Text>
+                    <Text>Umidade: {tempo.umidade}%</Text>
+                    <Text>Clima: {tempo.clima}</Text>
                 </View>
             ) : (
-                <Text style={styles.texto}>Carregando previsão do tempo...</Text>
+                <Text>Carregando previsão do tempo...</Text>
             )}
         </View>
     )
