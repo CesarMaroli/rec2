@@ -1,6 +1,6 @@
 import { Text, View, SafeAreaView, StyleSheet } from 'react-native'
 import { Link } from 'expo-router'
-import { useState, useContext } from 'react'
+import { useContext } from 'react'
 import { Picker } from '@react-native-picker/picker'
 import { AppContext } from '../scripts/appContext'
 
@@ -10,9 +10,8 @@ export default telaInicio = () => {
     return (
         <View style={styles.container}>
             <Picker
-                selectedValue={cidade}
+                selectedValue={cidades}
                 onValueChange={(itemValue) => setCidade(itemValue)}
-                style={styles.picker}
             >
                 {cidades.map((cidade) => (
                     <Picker.Item key={cidade.value} label={cidade.label} value={cidade.value} />
@@ -21,7 +20,7 @@ export default telaInicio = () => {
 
             {cidade && (
                 <Link href="/previsao">
-                    <Text style={styles.botao}>próxima tela</Text>
+                    <Text>Próxima tela</Text>
                 </Link>
             )}
         </View>

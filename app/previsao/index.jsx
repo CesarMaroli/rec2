@@ -52,18 +52,6 @@ const styles = StyleSheet.create({
         padding: 20,
         alignItems: 'center',
         justifyContent: 'center'
-    },
-    tempoView: {
-        alignSelf: 'center',
-        justifyContent: 'center',
-        padding: 20,
-        borderRadius: 8,
-        backgroundColor: '#E0F7FA'
-    },
-    texto: {
-        fontSize: 18,
-        marginVertical: 5,
-        textAlign: 'center'
     }
 })
 
