@@ -1,22 +1,29 @@
 import { Text, View, SafeAreaView, StyleSheet } from 'react-native'
 import { Link } from 'expo-router'
-import {useState, useContext} from 'react'
+import { useState, useContext } from 'react'
 import { Picker } from '@react-native-picker/picker'
 import { AppContext } from '../scripts/appContext'
 
 export default telaInicio = () => {
-    const {cidade, setCidade} = useContext(AppContext)
-
+    const { cidade, setCidade } = useContext(AppContext)
 
     return (
         <View style={styles.container}>
-            <Picker>
-                // Implementar aqui o componente picker corretamente. 
-                // Deve conseguir selecionar uma cidade da lista de cidades, e ao selecionar, salvar esta cidade no context
+            <Picker
+                selectedValue={cidade}
+                onValueChange={(itemValue) => setCidade(itemValue)}
+                style={styles.picker}
+            >
+                {cidades.map((cidade) => (
+                    <Picker.Item key={cidade.value} label={cidade.label} value={cidade.value} />
+                ))}
             </Picker>
-            
-            //implementar aqui um ternário condicional onde, se uma cidade foi selecionada, deve aparecer um botão para ir para a proxima tela.
-            // Utilizar o componente Link para fazer esta navegação
+
+            {cidade && (
+                <Link href="/previsao">
+                    <Text style={styles.botao}>próxima tela</Text>
+                </Link>
+            )}
         </View>
     )
 }
@@ -49,11 +56,12 @@ const cidades = [
     { label: 'São Paulo', value: 'São Paulo' },
     { label: 'Teresina', value: 'Teresina' },
     { label: 'Vitória', value: 'Vitória' },
-  ];
+    { label: 'São José', value: 'São José' },
+]
 
-  const styles = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
-        marginTop: 400
+        marginTop: 400,
     }
 })

@@ -1,41 +1,70 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, TextInput, Button, SafeAreaView, StyleSheet } from 'react-native';
+import React, { useState, useEffect, useContext } from 'react'
+import { View, Text, StyleSheet } from 'react-native'
 import { AppContext } from '../../scripts/appContext'
 
-
 const telaPrevisao = () => {
-    const {cidade, setCidade} = useContext(AppContext)
-    const [tempo, setTempo] = useState();
+    const { cidade } = useContext(AppContext)
+    const [tempo, setTempo] = useState(null)
 
     const obterPrevisaoDoTempo = async () => {
-        //implementar aqui uma forma de pegar uma informação da API openwheatermap. para isso, utilize a URL abaixo:
-        // `http://api.openweathermap.org/data/2.5/weather?q=${cidade}&appid=bddbeed6a893cf7d820e74ae7f9cb95e`
-    };
+        try {
+            const response = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${cidade}&appid=bddbeed6a893cf7d820e74ae7f9cb95e&units=metric&lang=pt`)
+            const data = await response.json()
+ 
+            if (data && data.main) {
+                setTempo({
+                    nome: data.name,
+                    temperatura: data.main.temp,
+                    vento: data.wind.speed,
+                    umidade: data.main.humidity,
+                    clima: data.weather[0].description
+                })
+            }
+        } catch (error) {
+            console.error("Erro ao obter dados do tempo:", error)
+        }
+    }
 
     useEffect(() => {
-      }, []); // implementar este useEffect, que deverá chamar a função de obterPrevisaoDoTempo somente uma vez, quando a tela é aberta.
+        obterPrevisaoDoTempo()
+    }, [])
 
     return (
-            <View style={styles.container}>
-                {weather ? (
-                    <View style={styles.tempoView}>
-                        //Criar aqui um visualização dos dados obtidos pela API do tempo. deve conter no minimo:
-                        // Nome da cidade, temperatura atual, velocidade do vento, humidade, tipo do clima
-                    </View>
-                ) : <></>}
-            </View>
-    );
-};
+        <View style={styles.container}>
+            {tempo ? (
+                <View style={styles.tempoView}>
+                    <Text style={styles.texto}>Cidade: {tempo.nome}</Text>
+                    <Text style={styles.texto}>Temperatura: {tempo.temperatura}°C</Text>
+                    <Text style={styles.texto}>Velocidade do Vento: {tempo.vento} m/s</Text>
+                    <Text style={styles.texto}>Umidade: {tempo.umidade}%</Text>
+                    <Text style={styles.texto}>Clima: {tempo.clima}</Text>
+                </View>
+            ) : (
+                <Text style={styles.texto}>Carregando previsão do tempo...</Text>
+            )}
+        </View>
+    )
+}
 
 const styles = StyleSheet.create({
-    container:{
-        flex:1,
-        margin:50
+    container: {
+        flex: 1,
+        padding: 20,
+        alignItems: 'center',
+        justifyContent: 'center'
     },
-    tempoView:{
-        alignSelf:'center',
-        justifyContent:'center'
+    tempoView: {
+        alignSelf: 'center',
+        justifyContent: 'center',
+        padding: 20,
+        borderRadius: 8,
+        backgroundColor: '#E0F7FA'
+    },
+    texto: {
+        fontSize: 18,
+        marginVertical: 5,
+        textAlign: 'center'
     }
 })
 
-export default telaPrevisao;
+export default telaPrevisao
